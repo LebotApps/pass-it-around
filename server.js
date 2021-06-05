@@ -1,34 +1,32 @@
-//Setting up Express server
 
+//Require Express Module
 const express = require(`express`);
 
-//Setting Express module to a variable
+// Setting Express To A Variable
+const app = express();
 
-const app = express(); 
+//Setting Port To A Variable
+const port = 3000;
 
-//Linking HTML to Express & 99 Bottles of beer 
+//Setting Beer To A Variable 
+const beers = 99;
 
-app.get('/', function (req, res) {
-    res.sendFile('index.html', {root: __dirname })
-  });
+// Setting Index Route Using HTML
+app.get(`/`, (req, res) => {
+    res.send(`<h2> ${beers} bottles of beer on the wall</h2> <a href="/${beers}">take one down, pass it around</a>`)
+});
 
-// app.listen(3000);
-
-// route to 98 bottles
-
-app.get(`/98`, (req, res)  => {
-    res.send(`98 Bottles of beer on the wall`);
-    });
-    
-    app.listen(3000);
-
-//route to all other beers 
-
-// app.get("/:number_of_beers" function, (req, res) {;
-//     res.send(`97 Bottles of beer on the wall`);
-//     });
-    
-//     app.listen(3000);
-// I thought tried to make another HTML and had no clue how to write this out as a function
-
-
+//Setting Route To Bottles 
+app.get(`/:number_of_bottles`, (req, res) => {
+    let numOfBeers = parseInt(req.params.number_of_bottles);
+    if (numOfBeers > 0) {
+        numOfBeers = numOfBeers - 1
+        res.send(`<h2> ${numOfBeers} bottles of beer on the wall</h2> <a href="/${numOfBeers}" bottles of beer>take one down, pass it around</a>`)
+    }
+    else {
+        res.send(`<h2>No more beers. </h2><a href="/">Play Again</a>`)
+    }
+});
+app.listen(port, () => {
+    console.log('Listening', port)
+});
